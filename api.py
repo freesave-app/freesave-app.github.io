@@ -1,33 +1,34 @@
-import yt_dlp, os
-from flask import Flask, request, send_file
+from flask import Flask, request, jsonify
 from flask_cors import CORS
+import yt_dlp
 
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/download')
+@app.route('/download', methods=['GET'])
 def download():
     video_url = request.args.get('url')
-    if not video_url: return "URL missing", 400
-    
-    clean_url = video_url.split('?')[0]
-    output_file = 'video.mp4'
-    if os.path.exists(output_file): os.remove(output_file)
-    
-    ydl_opts = {
-        'format': 'best',
-        'outtmpl': output_file,
-        'quiet': True,
-        'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-    }
-    
+    if not video_url:
+        return jsonify({"success": False, "error": "URL missing"}), 400
+
     try:
+        ydl_opts = {
+            'format': 'best',
+            'quiet': True,
+            'no_warnings': True,
+        }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([clean_url])
-        return send_file(output_file, as_attachment=True)
+            info = ydl.extract_info(video_url, download=False)
+            download_link = info.get('url')
+            title = info.get('title', 'video')
+
+        return jsonify({
+            "success": True,
+            "title": title,
+            "download_link": download_link
+        })
     except Exception as e:
-        return f"Error: {str(e)}"
+        return jsonify({"success": False, "error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
- 
+    app.run(host='0.0.0.0', port=10000)
