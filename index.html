@@ -3,13 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FreeDownloaderSite - Access</title>
+    <title>FreeSave - Access</title>
+    <link rel="icon" type="image/png" href="ns-logo.png">
+    
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 40px; }
-        .site-name-top { font-size: 26px; font-weight: 800; color: #1a1a1a; margin-top: 40px; text-align: center; width: 90%; }
-        .disclaimer { font-size: 11px; color: #555; text-align: center; width: 85%; margin-top: 10px; margin-bottom: 15px; line-height: 1.5; }
         
-        /* About Us Link Style */
+        /* নতুন লোগো স্টাইল */
+        .logo-container { margin-top: 40px; display: flex; justify-content: center; }
+        .logo-circle {
+            width: 100px; height: 100px; background: #000; 
+            border: 3px solid #D4AF37; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .logo-circle img { width: 85%; height: auto; }
+
+        .site-name-top { font-size: 28px; font-weight: 800; color: #1a1a1a; margin-top: 15px; text-align: center; width: 90%; }
+        .disclaimer { font-size: 11px; color: #555; text-align: center; width: 85%; margin-top: 5px; margin-bottom: 15px; line-height: 1.5; }
+        
         .header-section { width: 85%; max-width: 400px; display: flex; justify-content: flex-end; margin-bottom: 5px; }
         .about-link { color: #1a1a1a; font-size: 14px; font-weight: bold; cursor: pointer; text-decoration: none; border-bottom: 2px solid #1a1a1a; padding: 2px 0; }
 
@@ -28,14 +40,19 @@
         .footer-links { margin-top: 20px; text-align: center; }
         .footer-links a { color: #999; font-size: 12px; text-decoration: none; border-bottom: 1px solid #ddd; padding-bottom: 2px; }
 
-        /* Modal Style */
         .modal { display: none; position: fixed; z-index: 99; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
         .modal-content { background: white; margin: 15% auto; padding: 35px 25px; border-radius: 25px; width: 85%; max-width: 380px; text-align: center; position: relative; }
     </style>
 </head>
 <body>
 
-    <div class="site-name-top">FreeDownloaderSite.com</div>
+    <div class="logo-container">
+        <div class="logo-circle">
+            <img src="ns-logo.png" alt="NS Logo">
+        </div>
+    </div>
+
+    <div class="site-name-top">FreeSave.com</div>
     <div class="disclaimer">
         How you use it is your business and your responsibility <br> 
         <b>আপনি এটি কিভাবে ব্যবহার করবেন,সেটা আপনার ব্যাপার এবং এর দায় ও আপনার।</b>
@@ -71,10 +88,10 @@
 
     <div id="aboutModal" class="modal">
         <div class="modal-content">
-            <span style="font-size: 22px; font-weight: bold; color: #1a1a1a; margin-bottom: 10px; display: block;">FreeDownloaderSite.com</span>
+            <span style="font-size: 22px; font-weight: bold; color: #1a1a1a; margin-bottom: 10px; display: block;">FreeSave.com</span>
             <p style="text-align: left;"><strong>Owner:</strong> Kayra Haque</p>
             <p style="text-align: left;"><strong>Email:</strong> sitefreedownloader@gmail.com</p>
-            <p style="text-align: left; font-size: 13px; margin-top: 15px; border-top: 1px solid #eee; pt-10px">
+            <p style="text-align: left; font-size: 13px; margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
                 Check our <a href="privacy.html" style="color: #1a1a1a; font-weight: bold;">Privacy Policy</a> to see how we protect your info.
             </p>
             <button type="button" class="signup-btn" onclick="toggleAbout(false)" style="margin-top: 25px; width: 100%;">Close</button>
