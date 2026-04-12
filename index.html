@@ -9,21 +9,20 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 40px; }
         
-        /* লোগো সেকশন - যা আপনি ঠিক করতে চেয়েছেন */
         .logo-container { margin-top: 40px; display: flex; justify-content: center; }
         .logo-circle {
             width: 110px; height: 110px; 
-            background: #000; /* লোগোর ব্যাকগ্রাউন্ড কালারের সাথে মিল রেখে */
-            border: 3.5px solid #D4AF37; /* সোনালী বর্ডার */
+            background: #000; 
+            border: 3.5px solid #D4AF37; 
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            overflow: hidden; /* ছবি যেন বৃত্তের বাইরে না যায় */
+            overflow: hidden; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         .logo-circle img { 
             width: 100%; 
             height: 100%; 
-            object-fit: cover; /* এটি লোগোর ধুসর/কালো অংশ পুরো বৃত্তে ছড়িয়ে দেবে */
+            object-fit: cover; 
             display: block;
         }
 
@@ -120,6 +119,13 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+
+        // পেজ লোড হওয়ার সময় চেক করবে ইউজার আগে এসেছে কি না
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem("isUserSaved") === "true") {
+                document.getElementById("headerTitle").innerText = "WELCOME BACK";
+            }
+        });
 
         window.handleAuth = async function(type) {
             const input = document.getElementById('userInput').value;
