@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Trial - FreeSave.com</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; margin: 0; display: flex; flex-direction: column; align-items: center; padding-top: 50px; }
+        
+        .container { 
+            background: white; 
+            padding: 40px 25px; 
+            border-radius: 40px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+            width: 85%; 
+            max-width: 400px; 
+            border: 1px solid #eee; 
+            text-align: center;
+        }
+
+        h2 { font-size: 26px; font-weight: 800; color: #000; margin-bottom: 25px; text-transform: uppercase; }
+
+        /* ইনপুট বক্স ও ক্লিয়ার বাটন এরিয়া */
+        .input-wrapper { position: relative; width: 100%; margin-bottom: 25px; }
+        
+        input { 
+            width: 100%; padding: 18px 45px 18px 18px; border: 1px solid #eee; border-radius: 15px; 
+            box-sizing: border-box; font-size: 16px; outline: none; background: #fafafa; 
+        }
+
+        .clear-btn { 
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            background: #ddd; color: #555; width: 22px; height: 22px; 
+            border-radius: 50%; display: none; align-items: center; justify-content: center; 
+            font-size: 14px; cursor: pointer; font-weight: bold; border: none;
+        }
+
+        /* প্রসেসিং এনিমেশন */
+        .processing-box { background: #f4f4f4; border-radius: 20px; padding: 15px; margin-bottom: 25px; display: none; }
+        .proc-header { display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; color: #333; margin-bottom: 8px; }
+        .progress-bg { background: #e0e0e0; height: 10px; border-radius: 10px; overflow: hidden; margin-bottom: 8px; }
+        .progress-bar { background: #ccc; width: 0%; height: 100%; transition: 0.3s; }
+        .status-info { font-size: 11px; color: #777; font-weight: bold; text-align: left; }
+
+        /* সোনালী বর্ডারসহ প্রিমিয়াম বাটন */
+        .process-btn { 
+            display: block; width: 100%; background: #1a1a1a; color: #fff; 
+            border: 3px solid #D4AF37; padding: 18px; border-radius: 25px; 
+            font-size: 20px; font-weight: 800; cursor: pointer; 
+            text-transform: uppercase; transition: 0.2s;
+        }
+        .process-btn:disabled { opacity: 0.8; cursor: not-allowed; }
+
+        /* অ্যাড স্লট */
+        .ad-slot { 
+            width: 85%; max-width: 400px; height: 100px; background: #f0f0f0; border: 1px dashed #ccc; 
+            margin-top: 35px; border-radius: 20px; display: flex; align-items: center; justify-content: center; 
+            color: #888; font-size: 13px; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>FREE TRIAL</h2>
+        
+        <div class="input-wrapper">
+            <input type="text" id="videoUrl" placeholder="Paste Video Link Here..." oninput="toggleClearBtn()">
+            <button class="clear-btn" id="clearBtn" onclick="clearInput()">✕</button>
+        </div>
+
+        <div class="processing-box" id="procBox">
+            <div class="proc-header">
+                <span>Fetching Video...</span>
+                <span id="percent">0%</span>
+            </div>
+            <div class="progress-bg">
+                <div class="progress-bar" id="pBar"></div>
+            </div>
+            <div class="status-info">Calculating size...</div>
+        </div>
+
+        <button class="process-btn" id="mainBtn" onclick="handleTrial()">PROCESS VIDEO</button>
+    </div>
+
+    <div class="ad-slot">Advertisement Space (Google AdSense)</div>
+
+    <script>
+        // ইনপুট ক্লিয়ার করার ফাংশন
+        function toggleClearBtn() {
+            const val = document.getElementById('videoUrl').value;
+            document.getElementById('clearBtn').style.display = val ? 'flex' : 'none';
+        }
+
+        function clearInput() {
+            document.getElementById('videoUrl').value = '';
+            toggleClearBtn();
+        }
+
+        function handleTrial() {
+            const url = document.getElementById('videoUrl').value;
+            if(!url) { alert("Please paste a link first!"); return; }
+
+            let today = new Date().toLocaleDateString();
+            let count = parseInt(localStorage.getItem('trial_count')) || 0;
+            let lastDate = localStorage.getItem('trial_date');
+
+            if (lastDate !== today) {
+                count = 0;
+                localStorage.setItem('trial_date', today);
+            }
+
+            if (count >= 3) {
+                alert("Your free limit is over! To continue, please sign up or log in for free.");
+                window.location.href = "index.html";
+                return;
+            }
+
+            // মূল ড্যাশবোর্ডের মতো এনিমেশন
+            const btn = document.getElementById('mainBtn');
+            const procBox = document.getElementById('procBox');
+            const pBar = document.getElementById('pBar');
+            const percentTxt = document.getElementById('percent');
+
+            btn.innerText = "CONNECTING...";
+            btn.disabled = true;
+            procBox.style.display = "block";
+
+            let progress = 0;
+            let interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 15) + 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    count++;
+                    localStorage.setItem('trial_count', count);
+
+                    setTimeout(() => {
+                        window.location.href = "save.html";
+                    }, 600);
+                }
+                pBar.style.width = progress + "%";
+                percentTxt.innerText = progress + "%";
+            }, 300);
+        }
+    </script>
+</body>
+</html>
